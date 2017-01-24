@@ -2,9 +2,9 @@ let express = require('express')
 let app = express()
 
 let env = process.env.NODE_ENV || 'development'
-let config = require('./config/config')[env]
-require('./config/express')(config,app)
-require('./config/routes')(config,app)
+let config = require('./server/config/config')[env]
+require('./server/config/express')(config,app)
+require('./server/config/routes')(config,app)
 
 
 app.listen(config.port,() => {

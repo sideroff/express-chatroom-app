@@ -1,6 +1,6 @@
 let path = require('path')
 
-const rootPath = path.join(__dirname,'../')
+const rootPath = path.join(__dirname,'../../')
 
 module.exports = {
     development: {
