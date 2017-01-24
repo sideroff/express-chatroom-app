@@ -1,6 +1,7 @@
 extends header.pug
 block content
     form(method="POST", action="/login")
+        h2 Login
         input(type='text', placeholder='Username', name='username')
         input(type='password', placeholder='Password', name='password')
         input(type='password', placeholder='Confirm password', name='confirmPassword')
