@@ -15,7 +15,6 @@ let links = {
 
 module.exports = (config, app) => {
     app.get('/',(req,res) => {
-        console.log('index')
         let pathToFile = path.join(config.rootPath,'./content/header.pug')
         res.render('header',links.guest)
     })

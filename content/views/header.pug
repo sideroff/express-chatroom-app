@@ -3,7 +3,7 @@ html
         meta(charset="utf-8")
         meta(http-equiv="X-UA-Compatible" content="IE=edge")
         meta(name="viewport" content="width=device-width, initial-scale=1")
-        //link(href='/css.css' rel='stylesheet')
+        link(href='/css.css' rel='stylesheet')
         link(href="favicon.ico"  rel="shortcut icon" type="image/x-icon" )
         link(href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
             rel="stylesheet"
@@ -20,16 +20,21 @@ html
         header(class="navbar navbar-inverse")
             div(class="container-fluid")
                 div(class="navbar-header")
+                    button(type="button", class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar")
+                        span(class="icon-bar")
+                        span(class="icon-bar")
+                        span(class="icon-bar")
                     a(href="/" class="navbar-brand") BlogBul
-                ul(class="nav navbar-nav")
-                    each hl in headerLinks
-                        li 
-                            a(href=hl.href class="navbar-btn") #{hl.text}
-                ul(class="nav navbar-nav navbar-right")
-                    li
-                        a(href="/register" class="glyphicon glyphicon-user") Register
-                    li
-                        a(href="/login" class="glyphicon glyphicon-log-in") Login
+                div(class="collapse navbar-collapse" id="myNavbar")
+                    ul(class="nav navbar-nav")
+                        each hl in headerLinks
+                            li 
+                                a(href=hl.href class="navbar-btn") #{hl.text}
+                    ul(class="nav navbar-nav navbar-right")
+                        li
+                            a(href="/register" class="glyphicon glyphicon-user")  Register
+                        li
+                            a(href="/login" class="glyphicon glyphicon-log-in")  Login
         
         block content
         block footer
