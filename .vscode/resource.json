@@ -1,0 +1,10 @@
+{
+  "css": {
+    "site": [
+      "node_modules/bootstrap/dist/css/bootstrap.css"
+    ],
+    "style": [
+      "public/css.css"
+    ]
+  }
+}

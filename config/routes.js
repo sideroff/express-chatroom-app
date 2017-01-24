@@ -5,9 +5,7 @@ let pug = require('pug')
 let links = {
     guest: {
         headerLinks: [
-            {href:'/', text:'Home'},
-            {href:'/register', text:'Register'},
-            {href:'/login', text:'Login'}]},
+            {href:'/', text:'Home'}]},
     user: { 
         headerLinks: [
             {href:'/', text:'Home'},
