@@ -19,13 +19,11 @@ module.exports = (config, app) => {
     app.get('/',(req,res) => {
         console.log('index')
         let pathToFile = path.join(config.rootPath,'./content/header.pug')
-        let html = res.render('header',links.guest)
-        res.send(html)
+        res.render('header',links.guest)
     })
 
     app.get('/login', (req,res) => {
-        let html = res.render('loginForm',links.guest)
-        res.send('html')
+        res.render('loginForm',links.guest)
     })
 
     app.get('*', (req,res) => {
