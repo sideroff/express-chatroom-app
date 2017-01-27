@@ -5,6 +5,7 @@ let mongoose = require('mongoose')
 let Schema = mongoose.Schema
 
 let validationMessage = '{PATH is required}'
+
 let UserSchema = new Schema({
     username: {
         type: String,

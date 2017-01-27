@@ -14,10 +14,10 @@ module.exports = (config) => {
         }
 
         console.log('MongoDB ready!')
-        require('../models/userModel').seedAdminUser()
     })
 
     db.on('error', err => {
         console.log(err)
     })
+    require('../models/userModel').seedAdminUser()
 }
