@@ -6,7 +6,7 @@ module.exports = {
     development: {
         rootPath: rootPath,
         port: 3000,
-        dbConnectionString: ''
+        dbConnectionString: 'mongodb://localhost:27017/chatroom-app'
     },
     production: {        
         rootPath: rootPath,
