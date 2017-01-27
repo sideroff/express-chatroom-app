@@ -34,5 +34,10 @@ html
                             a(href="/register" class="glyphicon glyphicon-user")  Register
                         li
                             a(href="/login" class="glyphicon glyphicon-log-in")  Login
+                if messages
+                    ul
+                        each msg in messages
+                            li 
+                                span #{msg.type} #{msg.text}
         
         block content
