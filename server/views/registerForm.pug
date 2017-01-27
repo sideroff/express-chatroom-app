@@ -1,0 +1,11 @@
+extends header.pug
+block content
+    form(method="POST", action="/register" class="col-md-6 col-sm-12")
+        h2 Register
+        input(type='text', placeholder='Username', name='username')
+        br
+        input(type='password', placeholder='Password', name='password')
+        br
+        input(type='password', placeholder='Confirm password', name='confirmPassword')
+        br
+        input(type='submit' value='Register!')

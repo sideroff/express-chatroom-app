@@ -4,7 +4,7 @@ let mongoose = require('mongoose')
 
 let Schema = mongoose.Schema
 
-let validationMessage = '{PATH is required}'
+let validationMessage = '{PATH} is required}'
 
 let UserSchema = new Schema({
     username: {
@@ -22,13 +22,13 @@ let UserSchema = new Schema({
     },
     dateRegistered: {
         type: Date,
-        default: Date.now.toString()
+        default: Date.now()
     },
     roles: [String]
 })
 
 UserSchema.method({
-    authenticate: (password) => {
+    authenticate: function (password) {
         let inputPasswordHash = encryption.generatePasswordHash(this.salt, password)
         
         return this.passwordHash === this.inputPasswordHash
@@ -37,17 +37,31 @@ UserSchema.method({
 
 
 let User = mongoose.model('User', UserSchema)
-
-module.exports.seedAdminUser = () => {
-    User.find({}).then(users => {
-        if (users.length > 0) {
-            let salt = encryption.generateSalt
-            let passwordHash = encryption.generatePasswordHash(salt,'admin')
-            User.create({
-                username: 'admin',
-                passwordHash: passwordHash,
-                roles: ['admin']
-            })
-        }
-    })
+module.exports = {
+    createUser: (username, password, roles, callback) => {
+        let salt = encryption.generateSalt()
+        let passwordHash = encryption.generatePasswordHash(salt, password)
+        User.create({
+            username: username,
+            passwordHash: passwordHash,
+            salt: salt,
+            dateRegistered: Date.now()
+        }, function (err, createdUser) {
+            callback(err,createdUser)           
+        })
+    },
+    seedAdminUser: () => {
+        User.find({}).then(users => {
+            if (users.length == 0) {
+                let salt = encryption.generateSalt
+                let passwordHash = encryption.generatePasswordHash(salt,'admin')
+                User.create({
+                    username: 'admin',
+                    passwordHash: passwordHash,
+                    salt: salt,
+                    roles: ['admin']
+                })
+            }
+        })
+    }
 }
