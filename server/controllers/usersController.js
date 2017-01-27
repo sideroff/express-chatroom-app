@@ -27,12 +27,19 @@ module.exports = {
             .createUser(inputUser.username, inputUser.password, ['user'], function (err, createdUser) {
             
             if(err) {
-                console.log(err)
-                res.render('/register')
+                if (err.name == 'MongoError' && err.code == 11000) {
+                popUpCollection.addError('A user with this username already exists!')
+                } 
+                else {
+                    popUpCollection.addError('FIXME userscontroller: ' + err.message)
+                }
+                req.session.messages = popUpCollection.messages
+                res.redirect('/register')
             }
             else {
-                console.log('successfully registered user')
-                res.render('/', popUps.info('Successfully registered!'))
+                popUpCollection.addSuccess('Successfully registered user!')
+                req.session.messages = popUpCollection.messages
+                res.redirect('/')
             }
         })        
     }
