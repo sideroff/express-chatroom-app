@@ -1,4 +1,3 @@
-let encryption = require('../utilities/encryption')
 let mongoose = require('mongoose')
 
 
@@ -37,22 +36,11 @@ UserSchema.method({
 
 
 let User = mongoose.model('User', UserSchema)
-module.exports = {
-    createUser: (username, password, roles, callback) => {
-        let salt = encryption.generateSalt()
-        let passwordHash = encryption.generatePasswordHash(salt, password)
-        User.create({
-            username: username,
-            passwordHash: passwordHash,
-            salt: salt,
-            dateRegistered: Date.now()
-        }, function (err, createdUser) {
-            callback(err,createdUser)           
-        })
-    },
+
+module.exports = {    
     seedAdminUser: () => {
         User.find({}).then(users => {
-            if (users.length == 0) {
+            if (!users || users.length == 0) {
                 let salt = encryption.generateSalt
                 let passwordHash = encryption.generatePasswordHash(salt,'admin')
                 User.create({
