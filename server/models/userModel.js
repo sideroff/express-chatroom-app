@@ -1,4 +1,5 @@
-let mongoose = require('mongoose')
+const mongoose = require('mongoose')
+const encryption = require('../utilities/encryption')
 
 
 let Schema = mongoose.Schema
@@ -30,7 +31,7 @@ UserSchema.method({
     authenticate: function (password) {
         let inputPasswordHash = encryption.generatePasswordHash(this.salt, password)
         
-        return this.passwordHash === this.inputPasswordHash
+        return this.passwordHash === inputPasswordHash
     }
 })
 

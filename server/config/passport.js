@@ -11,9 +11,11 @@ module.exports = () => {
         (username, password, done) => {
             User
             .findOne({username: username})
-            .then(user => {
-                if(!user) return done(null, false)
-                if(!user.authenticate(password)) return done(null, false)
+            .then( user => {
+                if (!user || !user.authenticate(password)) {
+                        return done(null, false, 'Invalid username or password!')
+                    }
+
                 return done(null, user)
             })
         }))

@@ -12,7 +12,7 @@ module.exports = (config, app) => {
     app.get('/register', controllers.users.register)
     app.post('/register', controllers.users.create)
     app.get('/login', controllers.users.login)
-    app.post('/login', controllers.users.create)
+    app.post('/login', controllers.users.authenticate)
 
     app.get('*', (req,res) => {
         console.log('all')

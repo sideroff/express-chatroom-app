@@ -4,10 +4,37 @@ const PopUpCollection = require('../utilities/popUps').PopUpCollection
 
 module.exports = {
     login : (req,res) => {
-        res.render('loginForm')
+        let messages = req.session.messages
+        req.session.messages = null
+        console.log('get login ', messages)
+        res.render('loginForm', {messages: messages})
     },
     authenticate: (req,res) => {
-        req.logIn(user)
+        let popUps = new PopUpCollection()
+        let user = User.findOne({username: req.body.username})
+            .then(user => {
+                if(!user || !user.authenticate(req.body.password)){
+                    console.log('invalid credentials')
+                    popUps.addError('Invalid username or password!')
+                    req.session.messages = popUps.messages
+                    res.redirect('/login')
+                    return
+                }
+
+                req.logIn(user, (err, user) => {
+                    if(err) {
+                        popUps.addError('Oops, 500! ')
+                        req.session.messages = popUps.messages
+                        res.redirect('/login')
+                        return
+                    }
+
+                    console.log('success')
+                    popUps.addSuccess('Login successful! ')
+                    req.session.messages = popUps.messages
+                    res.redirect('/')
+                })
+            })
     },
     register: (req,res) => {
         let messages = req.session.messages
@@ -16,6 +43,8 @@ module.exports = {
     },
     create: (req,res) => {
         let popUpCollection = new PopUpCollection()
+
+        
         let inputUser = req.body
         if(inputUser.password !== inputUser.confirmPassword){
             popUpCollection.addError('Passwords did not match!!')
@@ -23,6 +52,7 @@ module.exports = {
             res.redirect('/register')
             return
         }
+
         let salt = encryption.generateSalt()
         let passwordHash = encryption.generatePasswordHash(salt, inputUser.password)
         User.create({
