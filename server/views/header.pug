@@ -30,10 +30,18 @@ html
                         li 
                             a(href='/' class="navbar-btn") Home
                     ul(class="nav navbar-nav navbar-right")
-                        li
-                            a(href="/register" class="glyphicon glyphicon-user")  Register
-                        li
-                            a(href="/login" class="glyphicon glyphicon-log-in")  Login
+                        if !currentUser
+                            li
+                                a(href="/register" class="glyphicon glyphicon-user")  Register
+                            li
+                                a(href="/login" class="glyphicon glyphicon-log-in")  Login
+                        else
+                            li
+                                span Hello, 
+                                    a(href="/users/" + currentUser.username ) #{currentUser.username}
+                            li
+                                form(action="/logout" method="POST")
+                                    input(type="submit" value="Logout!")
                 if messages
                     ul
                         each msg in messages
