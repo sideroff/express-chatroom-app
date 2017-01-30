@@ -78,18 +78,14 @@ module.exports = {
                 })
             })
     },
-    logout: (req,res) => {
+    logout: (req, res) => {
         let popUps = new PopUpCollection()
-
-        if (req.user) {
-            req.logOut()
-            popUps.addSuccess('Logged out successfully!')
-        }
-        else {
-            popUps.addError('You must be logged in to logout!')
-        }
+    
+        req.logOut()
+        popUps.addSuccess('Logged out successfully!')
         
         req.session.messages = popUps.messages
+
         res.redirect('/')
     }
     

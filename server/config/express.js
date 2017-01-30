@@ -20,8 +20,9 @@ module.exports = (config, app) => {
     app.use((req, res, next) => {
         if(req.user) {
             res.locals.currentUser = req.user
+            req.isLoggedIn = true
         }
-        
+
         next()
     })
     app.use(express.static(path.join(config.rootPath, 'public')))
