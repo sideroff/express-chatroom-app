@@ -21,4 +21,5 @@ module.exports = (config) => {
     })
     
     require('../models/userModel').seedAdminUser()
+    require('../models/roomModel')
 }

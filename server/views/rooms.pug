@@ -1,3 +1,7 @@
-extends header.pug
+extends _layout.pug
 block content
-    h2 Rooms
+    h2 Create new room
+    form(method="POST", action="/rooms/create" class="col-md-6 col-sm-12")
+        input(type='text', placeholder='Room name', name='name')
+        br
+        input(type='submit' value='Create!')

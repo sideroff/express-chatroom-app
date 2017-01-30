@@ -16,6 +16,7 @@ module.exports = (config, app) => {
     app.post('/login', controllers.users.authenticate)
     app.post('/logout', authenticate, controllers.users.logout)
     app.get('/rooms',authenticate, controllers.rooms.rooms)
+    app.post('/rooms/create',authenticate, controllers.rooms.create)
 
     app.get('*', (req,res) => {
         res.send('Page not found!')
