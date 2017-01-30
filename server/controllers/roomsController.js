@@ -3,9 +3,23 @@ let PopUpCollection = require('../utilities/popUps').PopUpCollection
 
 module.exports = {
     rooms: (req,res) => {
-        let messages = req.session.messages
-        req.session.messages = null
-        res.render('rooms', {messages: messages})
+        let popUps = new PopUpCollection()
+
+        Room.find({},function (err, rooms) {
+            if (err) {
+                console.log('err getting rooms from db in roomscontroller ', err)
+                popUps.addError('Something went wrong when getting data from the server. :(')
+                req.session.messages = popUps.messages
+                res.redirect('/')
+                return
+            }
+            console.log('got ' + rooms.length + ' rooms')
+            res.locals.rooms = rooms
+            
+            let messages = req.session.messages
+            req.session.messages = null
+            res.render('rooms', {messages: messages})
+        })
     },
     create: (req,res) => {
         let popUps = new PopUpCollection()

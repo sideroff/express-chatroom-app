@@ -4,6 +4,7 @@ let cookieParser = require('cookie-parser')
 let bodyParser = require('body-parser')
 let session = require('express-session')
 let passport = require('passport')
+let socket = require('socket.io')
 
 module.exports = (config, app) => {
     app.set('view engine','pug')

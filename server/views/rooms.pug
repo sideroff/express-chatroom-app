@@ -1,5 +1,11 @@
 extends _layout.pug
 block content
+    if rooms
+        h2 All rooms
+        ul
+        each room in rooms
+            li Join 
+                a(href="/rooms/" + room.name ) #{room.name}
     h2 Create new room
     form(method="POST", action="/rooms/create" class="col-md-6 col-sm-12")
         input(type='text', placeholder='Room name', name='name')
