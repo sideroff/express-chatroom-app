@@ -2,7 +2,7 @@ let Room = require('mongoose').model('Room')
 let PopUpCollection = require('../utilities/popUps').PopUpCollection
 
 module.exports = {
-    rooms: (req,res) => {
+    rooms: (req, res) => {
         let popUps = new PopUpCollection()
 
         Room.find({},function (err, rooms) {
@@ -21,7 +21,7 @@ module.exports = {
             res.render('rooms', {messages: messages})
         })
     },
-    create: (req,res) => {
+    create: (req, res) => {
         let popUps = new PopUpCollection()
 
         Room.create({
@@ -47,6 +47,24 @@ module.exports = {
             res.redirect('/rooms')
         })
 
+    },
+    join: (req, res) => {
+        let popUps = new PopUpCollection()
+        
+        Room.findOne({name: req.params.roomName}, function (err, room) {            
+            if (err) {
+                popUps.addError('Something went wrong when accessing room, please try again.')
+                req.session.messages = popUps.messages
+                res.redirect('/rooms')
+                return
+            }
+            popUps.addSuccess('Successfully joined room ' + room.name + '.')
+            popUps.messages
+            res.render('showRoom',{
+                messages: popUps.messages,
+                room: room
+            })
+        })
     }
 
 }

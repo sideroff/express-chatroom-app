@@ -1,0 +1,11 @@
+extends _layout.pug
+block content
+    if room
+        span room name: #{room.name}
+        span room creator: #{room.author}
+        if !room.messages || room.messages.lenght == 0
+            span Nobody has said a thing in here... Quick, be the first one!
+        else
+            ul
+                each msg in room.messages
+                    li #{msg.date} | #{msg.author}: #{msg.text}
