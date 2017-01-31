@@ -10,7 +10,7 @@ module.exports = {
     },
     production: {        
         rootPath: rootPath,
-        port: PORT,
+        port: process.env.PORT,
         dbConnectionString: process.env.DB_CONN_STR
     }
 }
