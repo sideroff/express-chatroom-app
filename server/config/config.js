@@ -2,8 +2,8 @@ let path = require('path')
 
 const rootPath = path.join(__dirname,'../../')
 
-let remoteDbUsername: 'chatroomUser'
-let remoteDbPassword: 'chatroomPassword'
+let remoteDbUsername = 'chatroomUser'
+let remoteDbPassword = 'chatroomPassword'
 
 module.exports = {
     development: {
