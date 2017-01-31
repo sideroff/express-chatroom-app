@@ -2,6 +2,9 @@ let path = require('path')
 
 const rootPath = path.join(__dirname,'../../')
 
+let remoteDbUsername: 'chatroomUser'
+let remoteDbPassword: 'chatroomPassword'
+
 module.exports = {
     development: {
         rootPath: rootPath,
@@ -11,6 +14,8 @@ module.exports = {
     production: {        
         rootPath: rootPath,
         port: process.env.PORT,
-        dbConnectionString: process.env.DB_CONN_STR
+		remoteDbUsername: remoteDbUsername,
+		remoteDbPassword: remoteDbPassword,
+        dbConnectionString: 'mongodb://' + remoteDbUsername + ':' + remoteDbPassword + '@ds035503.mlab.com:35503/chatroom'
     }
 }
