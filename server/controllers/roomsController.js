@@ -48,7 +48,7 @@ module.exports = {
         })
 
     },
-    join: (req, res) => {
+    join: (req, res, io) => {
         let popUps = new PopUpCollection()
         
         Room.findOne({name: req.params.roomName}, function (err, room) {            
@@ -58,11 +58,16 @@ module.exports = {
                 res.redirect('/rooms')
                 return
             }
+            if(!room) {
+                popUps.addError('No room with such name exists. Why not create it?')
+                req.session.messages = popUps.messages
+                res.redirect('/rooms')
+                return
+            }
             popUps.addSuccess('Successfully joined room ' + room.name + '.')
-            popUps.messages
+            res.locals.room = room
             res.render('showRoom',{
-                messages: popUps.messages,
-                room: room
+                messages: popUps.messages
             })
         })
     }

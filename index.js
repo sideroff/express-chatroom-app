@@ -9,6 +9,7 @@ require('./server/config/database')(config)
 require('./server/config/express')(config,app)
 require('./server/config/routes')(config,app)
 require('./server/config/passport')()
+require('./server/config/socket')(io)
 
 server.listen(config.port,() => {
     console.log('Server listening on port: ' + config.port)
