@@ -25,19 +25,17 @@ module.exports = (io) => {
                     return
                 }
                 currentUsers[socket.id] = {user: user, room: room}
-                if (!rooms[room]) {
-                    rooms[room] = {messages: []}
-                }
+                
                 socket.emit('accepted')
                 socket.on('msg', (msg) => {
+                    console.log(msg)
                     let date = msg.date || Date.now()
                     let room = currentUsers[socket.id].room
-                    let messeges = rooms[room].messages
-                    messeges.push({
+                    newMsg = {
                         author: currentUsers[socket.id].user._id,
                         text: msg.text,
                         date: date
-                    })
+                    }
                     // // sending to all clients in 'game' room(channel) except sender
                     // socket.broadcast.to('game').emit('message', 'nice game');
                     socket.broadcast.emit('newMsg',{
@@ -45,14 +43,10 @@ module.exports = (io) => {
                         text: msg.text,
                         date: date
                     })
-                    if (messeges.length >= maxNumberOfMessages){
-                        // another var because next few lines are async
-                        let messegesForDb = messeges
-                        messeges = []
-                        Room.update({_id: room._id},{$push: {messages: {$each: messegesForDb}}}).then((result) => {
-                            console.log(result)
-                        })
-                    }
+                    
+                    Room.update({_id: room._id},{$push: {messages: newMsg}}).then((result) => {
+                        console.log(result)
+                    })
                 })
             }).catch(err => {
                 console.log('error   ',err)

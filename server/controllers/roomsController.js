@@ -50,7 +50,7 @@ module.exports = {
     },
     join: (req, res, io) => {
         let popUps = new PopUpCollection()
-        Room.findOne({name: req.params.roomName}, function (err, room) {            
+        Room.findOne({name: req.params.roomName}).populate('author messages.author').exec(function (err, room) {            
             if (err) {
                 popUps.addError('Something went wrong when accessing room, please try again.')
                 req.session.messages = popUps.messages

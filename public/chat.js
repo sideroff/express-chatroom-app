@@ -26,7 +26,7 @@ window.onload = function() {
             e.preventDefault()
             let date = Date.now()
             let text = $('#msgField').val()
-            let li = $('<li>').text('You' + ' at ' + date + ' | ' + text)
+            let li = $('<li>').text('<date> | You:' + text)
             $('#chat').append(li)
             $('#msgField').val('')
             socket.emit('msg',{date: date, text: text})
