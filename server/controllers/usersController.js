@@ -1,6 +1,7 @@
 const User = require('mongoose').model('User')
 const encryption = require('../utilities/encryption')
 const PopUpCollection = require('../utilities/popUps').PopUpCollection
+const jwt = require('jsonwebtoken')
 
 module.exports = {
     register: (req,res) => {
@@ -48,7 +49,6 @@ module.exports = {
     login : (req,res) => {
         let messages = req.session.messages
         req.session.messages = null
-        console.log('get login ', messages)
         res.render('loginForm', {messages: messages})
     },
     authenticate: (req,res) => {
@@ -56,13 +56,11 @@ module.exports = {
         let user = User.findOne({username: req.body.username})
             .then(user => {
                 if(!user || !user.authenticate(req.body.password)){
-                    console.log('invalid credentials')
-                    popUps.addError('Invalid username or password!')
+                    popUps.addError('Invalid username or password!')                    
                     req.session.messages = popUps.messages
                     res.redirect('/login')
                     return
                 }
-
                 req.logIn(user, (err, user) => {
                     if(err) {
                         popUps.addError('Oops, 500! ')
@@ -70,8 +68,6 @@ module.exports = {
                         res.redirect('/login')
                         return
                     }
-
-                    console.log('success')
                     popUps.addSuccess('Login successful! ')
                     req.session.messages = popUps.messages
                     res.redirect('/')

@@ -13,7 +13,7 @@ module.exports = (config, app) => {
     app.use(cookieParser())
     app.use(bodyParser.urlencoded({ extended: true}))
     app.use(session({
-        secret: 'change-me!@#%', 
+        secret: 'change-me!@#%',
         resave: false, 
         saveUninitialized: false}))
     app.use(passport.initialize())

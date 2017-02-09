@@ -20,6 +20,8 @@ module.exports = (config) => {
         console.log(err)
     })
     
+    // these should be in this specific order!
+    // roomModel relies on there being a user model defined
     require('../models/userModel').seedAdminUser()
     require('../models/roomModel')
 }

@@ -26,7 +26,7 @@ module.exports = {
 
         Room.create({
             name: req.body.name,
-            author: req.user.username
+            author: req.user._id
         }, function(err, room) {
             if (err) {
                 if (err.name == 'MongoError' && err.code == 11000) {
@@ -50,7 +50,6 @@ module.exports = {
     },
     join: (req, res, io) => {
         let popUps = new PopUpCollection()
-        
         Room.findOne({name: req.params.roomName}, function (err, room) {            
             if (err) {
                 popUps.addError('Something went wrong when accessing room, please try again.')

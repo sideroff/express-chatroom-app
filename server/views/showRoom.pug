@@ -6,6 +6,9 @@ block content
         if !room.messages || room.messages.lenght == 0
             span Nobody has said a thing in here... Quick, be the first one!
         else
-            ul
+            ul(id="chat")
                 each msg in room.messages
                     li #{msg.date} | #{msg.author}: #{msg.text}
+    form(id="msgForm" data-userId=currentUser._id data-roomId=room._id)
+        input(id="msgField" placeholder="Say something!")
+        input(type="submit")
