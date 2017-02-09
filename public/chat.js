@@ -1,5 +1,5 @@
 window.onload = function() {
-    let socket = io('http://localhost:3000')
+    let socket = io(window.location.origin)
 
     let userId = $('#msgForm').attr('data-userId') 
     let roomId = $('#msgForm').attr('data-roomId')
