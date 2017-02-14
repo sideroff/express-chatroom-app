@@ -1,9 +1,5 @@
 const User = require('mongoose').model('User')
 const Room = require('mongoose').model('Room')
-const maxNumberOfMessages = 3
-let rooms = {}
-// socket id => {User model, Room model}
-let currentUsers = {}
 
 module.exports = (io) => {
     io.on('connection', (socket) => {
@@ -24,22 +20,17 @@ module.exports = (io) => {
                     socket.disconnect()
                     return
                 }
-                currentUsers[socket.id] = {user: user, room: room}
                 socket.join(room.name)
                 socket.emit('accepted')
                 socket.on('msg', (msg) => {
-                    console.log(msg)
                     let date = msg.date || Date.now()
-                    let room = currentUsers[socket.id].room
                     newMsg = {
-                        author: currentUsers[socket.id].user._id,
+                        author: user._id,
                         text: msg.text,
                         date: date
                     }
-                    // // sending to all clients in 'game' room(channel) except sender
-                    // socket.broadcast.to('game').emit('message', 'nice game');
                     socket.broadcast.to(room.name).emit('newMsg',{
-                        author: currentUsers[socket.id].user.username,
+                        author: user.username,
                         text: msg.text,
                         date: date
                     })
