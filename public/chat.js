@@ -1,4 +1,4 @@
-window.onload = function() {
+$(document).ready(function() {
     let username = $('#userGreeting').text()
     let socket = io(window.location.origin)
 
@@ -33,4 +33,4 @@ window.onload = function() {
             socket.emit('msg',{date: date, text: text})
         })
     }
-}
+})
