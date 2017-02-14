@@ -25,7 +25,7 @@ module.exports = (io) => {
                     return
                 }
                 currentUsers[socket.id] = {user: user, room: room}
-                
+                socket.join(room.name)
                 socket.emit('accepted')
                 socket.on('msg', (msg) => {
                     console.log(msg)
@@ -38,7 +38,7 @@ module.exports = (io) => {
                     }
                     // // sending to all clients in 'game' room(channel) except sender
                     // socket.broadcast.to('game').emit('message', 'nice game');
-                    socket.broadcast.emit('newMsg',{
+                    socket.broadcast.to(room.name).emit('newMsg',{
                         author: currentUsers[socket.id].user.username,
                         text: msg.text,
                         date: date

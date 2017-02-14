@@ -7,7 +7,6 @@ $(document).ready(function() {
 
     socket.emit('join', {userId: userId, roomId: roomId})
     socket.on('accepted', () => {
-        console.log('been accepted')
         attachSendEvent(socket)
         socket.on('newMsg', newMsg => {
             let li = $('<li>').text(moment(newMsg.date).format('HH:mm:ss') + ' | ' + newMsg.author + ': ' + newMsg.text)
