@@ -16,6 +16,7 @@ html
         script(src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
             integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
             crossorigin="anonymous")
+        script(src="/js.js")
         if room
             script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.2/socket.io.js")
             script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js")
@@ -49,15 +50,16 @@ html
                             li
                                 form(action="/logout" method="POST")
                                     input(type="submit" value="Logout!")
-                - var messages = getMessages() 
-                    if messages.info
-                        each msg in messages.info
-                            .info= msg
-                    if messages.error
-                        each msg in messages.error
-                            .error= msg
-                    if messages.success
-                        each msg in messages.success
-                            .error= msg
+        - var messages = getMessages() 
+            if messages.info
+                each msg in messages.info
+                    div(class='alert alert-info alert-dismissable'  role='button' data-toggle="tooltip" title="Hide!") #{msg}
+            if messages.error
+                each msg in messages.error
+                    div(class='alert alert-danger alert-dismissable' role='button' data-toggle="tooltip" title="Hide!") #{msg}
+                        
+            if messages.success
+                each msg in messages.success
+                    div(class='alert alert-success alert-dismissable' role='button' data-toggle="tooltip" title="Hide!") #{msg}
         
         block content
