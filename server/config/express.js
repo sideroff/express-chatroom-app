@@ -5,6 +5,7 @@ let bodyParser = require('body-parser')
 let session = require('express-session')
 let passport = require('passport')
 let socket = require('socket.io')
+let flash = require('express-flash-messages')
 
 module.exports = (config, app) => {
     app.set('view engine','pug')
@@ -18,6 +19,7 @@ module.exports = (config, app) => {
         saveUninitialized: false}))
     app.use(passport.initialize())
     app.use(passport.session())
+    app.use(flash())
     app.use((req, res, next) => {
         if(req.user) {
             res.locals.currentUser = req.user
@@ -25,6 +27,6 @@ module.exports = (config, app) => {
         }
 
         next()
-    })
+    })    
     app.use(express.static(path.join(config.rootPath, 'public')))
 }
