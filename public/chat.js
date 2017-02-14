@@ -1,4 +1,5 @@
 window.onload = function() {
+    let username = $('#userGreeting').text()
     let socket = io(window.location.origin)
 
     let userId = $('#msgForm').attr('data-userId') 
@@ -9,7 +10,7 @@ window.onload = function() {
         console.log('been accepted')
         attachSendEvent(socket)
         socket.on('newMsg', newMsg => {
-            let li = $('<li>').text(newMsg.author + ' at ' + newMsg.date + ' | ' + newMsg.text)
+            let li = $('<li>').text(moment(newMsg.date).format('HH:mm:ss') + ' | ' + newMsg.author + ': ' + newMsg.text)
             $('#chat').append(li)
         })
     })
@@ -26,7 +27,7 @@ window.onload = function() {
             e.preventDefault()
             let date = Date.now()
             let text = $('#msgField').val()
-            let li = $('<li>').text('<date> | You:' + text)
+            let li = $('<li>').text(moment(date).format('HH:mm:ss') + ' | '+ username +': ' + text)
             $('#chat').append(li)
             $('#msgField').val('')
             socket.emit('msg',{date: date, text: text})

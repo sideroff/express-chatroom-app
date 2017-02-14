@@ -1,7 +1,7 @@
 let Room = require('mongoose').model('Room')
 
 module.exports = {
-    rooms: (req, res) => {
+    index: (req, res) => {
 
         Room.find({},function (err, rooms) {
             if (err) {
@@ -39,7 +39,7 @@ module.exports = {
 
     },
     join: (req, res, io) => {
-        Room.findOne({name: req.params.roomName}).populate('author messages.author').exec(function (err, room) {            
+        Room.findOne({name: req.params.roomName},{messages: {$slice: 0}}).populate('author').exec(function (err, room) {            
             if (err) {
                 req.flash('error','Something went wrong when accessing room, please try again.')
                 res.redirect('/rooms')

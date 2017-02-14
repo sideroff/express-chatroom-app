@@ -3,12 +3,7 @@ block content
     if room
         span room name: #{room.name}
         span room creator: #{room.author.username}
-        if !room.messages || room.messages.lenght == 0
-            span Nobody has said a thing in here... Quick, be the first one!
-        else
-            ul(id="chat")
-                each msg in room.messages
-                    li #{'<date>'}' | #{msg.author.username}: #{msg.text}
+        ul(id="chat")
     form(id="msgForm" data-userId=currentUser._id data-roomId=room._id)
         input(id="msgField" placeholder="Say something!")
-        input(type="submit")    
+        input(type="submit")
