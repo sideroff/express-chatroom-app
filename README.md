@@ -1,7 +1,9 @@
 # express chatroom app
 
 This is a simple app with user registration/authentication and chatrooms.
+
 ## Try it out!
+
 The app is hosted at: http://expresschatroom.herokuapp.com
 
 ## Installation

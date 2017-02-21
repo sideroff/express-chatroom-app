@@ -1,5 +1,5 @@
 let Room = require('mongoose').model('Room')
-
+const defaultNumberOfMessagesLoadedWhenJoining = 0
 module.exports = {
     index: (req, res) => {
 
@@ -39,7 +39,7 @@ module.exports = {
 
     },
     join: (req, res, io) => {
-        Room.findOne({name: req.params.roomName},{messages: {$slice: 0}}).populate('author').exec(function (err, room) {            
+        Room.findOne({name: req.params.roomName},{messages: {$slice: defaultNumberOfMessagesLoadedWhenJoining}}).exec(function (err, room) {            
             if (err) {
                 req.flash('error','Something went wrong when accessing room, please try again.')
                 res.redirect('/rooms')
@@ -54,5 +54,6 @@ module.exports = {
             res.locals.room = room
             res.render('showRoom')
         })
-    }
+    },
+    
 }

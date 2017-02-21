@@ -1,5 +1,6 @@
 const User = require('mongoose').model('User')
 const Room = require('mongoose').model('Room')
+const ObjectId = require('mongoose').Types.ObjectId;
 
 module.exports = (io) => {
     io.on('connection', (socket) => {
@@ -37,6 +38,32 @@ module.exports = (io) => {
                     
                     Room.update({_id: room._id},{$push: {messages: newMsg}}).then((result) => {
                         console.log(result)
+                    })
+                })
+                socket.on('loadPrevious', options => {
+                    console.log(options)
+                    console.log(typeof(options.loadBefore))
+                    let date = new Date(options.loadBefore)
+                    console.log(date)
+                    // very nice query C:
+                    // you need to reverse unwind because now u get all messages in order of insertion and you need them backwards
+                    Room.aggregate([
+                        {$match: {"_id": new ObjectId(options.roomId)}},
+                        {$unwind : "$messages"},
+                        {$match: {'messages.date': {$lt: date}}},
+                        {$limit: options.count},
+                        {$lookup: {
+                            from: "users",
+                            localField: "messages.author",
+                            foreignField: "_id",
+                            as: "messages.author"
+                            }
+                        },
+                        {$project: {'messages.date': 1, 'messages.text': 1, 'messages.author': '$messages.author.username'}},
+                        {$group: {_id: '$_id', messages: { $push:  '$messages' }}}
+                    ]).then(result => {
+                        console.dir(result)
+                        socket.emit('loadedPrevious', result)
                     })
                 })
             }).catch(err => {
