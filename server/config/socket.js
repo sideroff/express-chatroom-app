@@ -35,8 +35,16 @@ module.exports = (io) => {
                         text: msg.text,
                         date: date
                     })
-                    
-                    Room.update({_id: room._id},{$push: {messages: newMsg}}).then((result) => {
+                    // we need to prepend new messages so they are ordered by date by default
+                    // also this ordering allows for faster queries because the majority of queries
+                    // will be for the most recent messages
+                    // http://stackoverflow.com/questions/10131957/can-you-have-mongo-push-prepend-instead-of-append
+                    Room.update({_id: room._id},{$push: {
+                        messages: { 
+                            $each: [ newMsg ],
+                            $position: 0
+                        }
+                    }}).then((result) => {
                         console.log(result)
                     })
                 })
@@ -46,7 +54,8 @@ module.exports = (io) => {
                     let date = new Date(options.loadBefore)
                     console.log(date)
                     // very nice query C:
-                    // you need to reverse unwind because now u get all messages in order of insertion and you need them backwards
+                    // this works because we prepend every new msg 
+                    // ref: socket.on('msg', (msg) => {...}
                     Room.aggregate([
                         {$match: {"_id": new ObjectId(options.roomId)}},
                         {$unwind : "$messages"},
@@ -59,7 +68,7 @@ module.exports = (io) => {
                             as: "messages.author"
                             }
                         },
-                        {$project: {'messages.date': 1, 'messages.text': 1, 'messages.author': '$messages.author.username'}},
+                        {$project: {'messages.date': 1, 'messages.text': 1, 'messages.author': '$messages.author.username'}},                        
                         {$group: {_id: '$_id', messages: { $push:  '$messages' }}}
                     ]).then(result => {
                         console.dir(result)

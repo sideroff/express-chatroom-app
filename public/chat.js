@@ -46,7 +46,31 @@ $(document).ready(function() {
                 count: numberOfMessagesToLoad })
         })
         socket.on('loadedPrevious', data => {
-            console.dir(data)
+            data = data[0]
+
+            updateDateVariable(data)
+
+            let messagesAsLiElements = []
+            for(let i = data.messages.length-1; i>=0; i--){
+                messagesAsLiElements.push(messageToLiElement(data.messages[i]))
+            }
+
+            $('#chat').prepend(messagesAsLiElements)
         })
+
+        function messageToLiElement(msg) {
+            return $('<li>').text(moment(msg.date).format('HH:mm:ss') + ' | ' + msg.author[0] + ': ' + msg.text)
+            $('#chat').append(li)
+        }
+
+        function updateDateVariable(data) {
+            // if !data in case the stars align and the totalNumberOfMsgs % numberOfMessagesToLoad = 0
+            // if less than wanted => we've reached the last
+            if(!data || data.messages.length < numberOfMessagesToLoad) {
+                $('#loadPreviousBtn').hide()
+                return
+            }
+            hasMessagesAfter = new Date(data.messages[data.messages.length-1].date)
+        }
     }
 })

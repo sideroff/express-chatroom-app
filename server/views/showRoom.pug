@@ -1,10 +1,12 @@
 extends _layout.pug
 block content
     if room
-        span room name: #{room.name}
-        span room creator: #{room.author.username}        
-        a(href="#" id="loadPreviousBtn") Load previous messages...
-        ul(id="chat")
+        div(id="roomInfo")
+            span room name: #{room.name}
+            span room creator: #{room.author.username}
+            div(id="roomControls")     
+                a(href="#" id="loadPreviousBtn") Load previous messages...
+    ul(id="chat")
     form(id="msgForm" data-userId=currentUser._id data-roomId=room._id)
         input(id="msgField" placeholder="Say something!")
         input(type="submit")
