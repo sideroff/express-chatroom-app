@@ -39,7 +39,7 @@ module.exports = {
 
     },
     join: (req, res, io) => {
-        Room.findOne({name: req.params.roomName},{messages: {$slice: defaultNumberOfMessagesLoadedWhenJoining}}).exec(function (err, room) {            
+        Room.findOne({name: req.params.roomName},{messages: {$slice: defaultNumberOfMessagesLoadedWhenJoining}}).populate('author').exec(function (err, room) {            
             if (err) {
                 req.flash('error','Something went wrong when accessing room, please try again.')
                 res.redirect('/rooms')

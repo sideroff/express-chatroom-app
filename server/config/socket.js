@@ -71,7 +71,6 @@ module.exports = (io) => {
                         {$project: {'messages.date': 1, 'messages.text': 1, 'messages.author': '$messages.author.username'}},                        
                         {$group: {_id: '$_id', messages: { $push:  '$messages' }}}
                     ]).then(result => {
-                        console.dir(result)
                         socket.emit('loadedPrevious', result)
                     })
                 })

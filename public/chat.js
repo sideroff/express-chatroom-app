@@ -60,7 +60,6 @@ $(document).ready(function() {
 
         function messageToLiElement(msg) {
             return $('<li>').text(moment(msg.date).format('HH:mm:ss') + ' | ' + msg.author[0] + ': ' + msg.text)
-            $('#chat').append(li)
         }
 
         function updateDateVariable(data) {

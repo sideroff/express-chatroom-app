@@ -3,6 +3,7 @@ block content
     if room
         div(id="roomInfo")
             span room name: #{room.name}
+            br
             span room creator: #{room.author.username}
             div(id="roomControls")     
                 a(href="#" id="loadPreviousBtn") Load previous messages...
