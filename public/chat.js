@@ -55,7 +55,7 @@ $(document).ready(function() {
                 messagesAsLiElements.push(messageToLiElement(data.messages[i]))
             }
 
-            $('#chat').prepend(messagesAsLiElements)
+            $('#chat').prepend(messagesAsLiElements) 
         })
 
         function messageToLiElement(msg) {
